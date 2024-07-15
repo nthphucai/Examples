@@ -1,1 +1,1 @@
-from .exceptions import TypingError, UnExpectedError
+from .exceptions import AuthenticationFailed, ServiceError, TypingError, ProjectApiError

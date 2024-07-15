@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from exceptions import TypingError, UnExpectedError
+from exceptions import TypingError, ServiceError
 
 
 class UserQuery(BaseModel):
@@ -12,6 +12,7 @@ class UserQuery(BaseModel):
         description="description",
     )
 
+
 def searcher(SearchQuery, search_engine) -> str:
 
     context_text = SearchQuery.context
@@ -21,7 +22,7 @@ def searcher(SearchQuery, search_engine) -> str:
         raise TypingError(message="Invalid input", name="input")
 
     elif context_text is None:
-        raise UnExpectedError(message="unexpected error", name="unexpected error")
+        raise ServiceError(message="unexpected error", name="unexpected error")
 
     else:
         return "This is a api testing for searching module"

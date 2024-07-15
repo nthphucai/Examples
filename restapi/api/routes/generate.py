@@ -8,8 +8,7 @@ from loguru import logger
 from fastapi.params import Depends
 from .limiter import limiter
 
-from database import save_to_db
-from exceptions import TypingError, UnExpectedError
+from exceptions import TypingError, ServiceError
 from fastapi import HTTPException, Request
 from modules.generate import generator
 from modules.core import LLMGeneratorInit, init_generator
@@ -33,7 +32,7 @@ async def custom_swagger_ui_html():
 
 @router.post("/v1/from_search", status_code=200, tags=["Generate"])
 @limiter.limit("1/second")
-async def search(
+async def generate(
     request: Request,
     item: GenerateQuery,
     llm_generator: LLMGeneratorInit = Depends(init_generator),
@@ -44,11 +43,11 @@ async def search(
     except TypingError as error:
         raise HTTPException(status_code=404) from error
 
-    except UnExpectedError as error:
+    except ServiceError as error:
         raise HTTPException(status_code=500) from error
 
     finally:
-        save_to_db()
+        print("save_to_db...")
 
     gc.collect()
     torch.cuda.empty_cache()

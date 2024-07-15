@@ -1,4 +1,4 @@
-class ApiError(Exception):
+class ProjectApiError(Exception):
     """base exception class"""
 
     def __init__(self, message: str = "Service is unavailable", name: str = "SkyPulse"):
@@ -7,19 +7,19 @@ class ApiError(Exception):
         super().__init__(self.message, self.name)
 
 
-class ServiceError(ApiError):
+class ServiceError(ProjectApiError):
     """failures in external services or APIs, like a database or a third-party service"""
 
     pass
 
 
-class TypingError(ApiError):
+class TypingError(ProjectApiError):
     """invalid typing input"""
 
     pass
 
 
-class UnExpectedError(ApiError):
+class AuthenticationFailed(ProjectApiError):
     """unexpected error"""
 
     pass

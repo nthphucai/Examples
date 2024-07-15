@@ -22,8 +22,8 @@ result = {
 }
 
 out = requests.post(
-    # "http://0.0.0.0:5050/v1/from_query",
-    "http://0.0.0.0:5050/v1/from_search",
+    "http://0.0.0.0:5050/v1/from_query",
+    # "http://0.0.0.0:5050/v1/from_search",
     json=result,
     headers={"Content-Type": "application/json"},
 )

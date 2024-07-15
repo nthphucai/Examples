@@ -4,7 +4,7 @@ import requests
 from fastapi import APIRouter, Response, status
 from loguru import logger
 
-from schemas.context import FromContextRequestItem
+from restapi.schemas.generate import FromContextRequestItem
 
 
 SERVER = os.getenv("SERVER")

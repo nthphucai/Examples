@@ -5,11 +5,9 @@ from fastapi import File, Response, UploadFile, status
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi import HTTPException, Request
 from fastapi.params import Depends
-from loguru import logger
 
-from database import save_to_db
 from .limiter import limiter
-from exceptions import TypingError, UnExpectedError
+from exceptions import TypingError, ServiceError
 from modules.search import searcher
 from modules.core import init_searcher, SearcherInit
 from schemas import SearchQuery
@@ -43,11 +41,11 @@ async def search(
     except TypingError as error:
         raise HTTPException(status_code=404) from error
 
-    except UnExpectedError as error:
+    except ServiceError as error:
         raise HTTPException(status_code=500) from error
 
     finally:
-        save_to_db()
+        print("save_to_db...")
 
     gc.collect()
     torch.cuda.empty_cache()
