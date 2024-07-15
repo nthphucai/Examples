@@ -1,6 +1,7 @@
 from typing import List, Union
 from pydantic import BaseModel, Field, field_validator
 
+
 class SearchQuery(BaseModel):
     task: str = Field(
         default="simple-question",

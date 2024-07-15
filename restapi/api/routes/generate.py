@@ -8,7 +8,6 @@ from loguru import logger
 from fastapi.params import Depends
 from .limiter import limiter
 
-from database import save_to_db
 from exceptions import TypingError, ServiceError
 from fastapi import HTTPException, Request
 from modules.generate import generator
@@ -48,7 +47,7 @@ async def generate(
         raise HTTPException(status_code=500) from error
 
     finally:
-        save_to_db()
+        print("save_to_db...")
 
     gc.collect()
     torch.cuda.empty_cache()

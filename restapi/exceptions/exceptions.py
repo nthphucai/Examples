@@ -23,4 +23,3 @@ class AuthenticationFailed(ProjectApiError):
     """unexpected error"""
 
     pass
-

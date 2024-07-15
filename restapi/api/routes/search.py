@@ -6,7 +6,6 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi import HTTPException, Request
 from fastapi.params import Depends
 
-from database import save_to_db
 from .limiter import limiter
 from exceptions import TypingError, ServiceError
 from modules.search import searcher
@@ -46,7 +45,7 @@ async def search(
         raise HTTPException(status_code=500) from error
 
     finally:
-        save_to_db()
+        print("save_to_db...")
 
     gc.collect()
     torch.cuda.empty_cache()

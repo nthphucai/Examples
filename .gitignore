@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 
 check_gpu.py
+*.idea
