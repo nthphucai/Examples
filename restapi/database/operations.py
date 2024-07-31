@@ -38,7 +38,6 @@ def create_db_item(item: ItemCreate, session: Session) -> DBItem:
     session.add(db_item)
     session.commit()
     session.refresh(db_item)
-
     return db_item
 
 
@@ -49,7 +48,7 @@ def update_db_item(item_id: int, item: ItemUpdate, session: Session) -> DBItem:
     session.commit()
     session.refresh(db_item)
 
-    # #get the automations
+    # get the automations
     # automations = read_db_automations_for_item(db_item.id, session)
     # run_automations(automations)
 

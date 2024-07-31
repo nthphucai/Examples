@@ -1,19 +1,21 @@
 from typing import Any
 from modules.search import UserQuery
 from modules.generate import LLMGenInput
-
+from database.operations import ItemCreate
 
 class SearcherInit:
     def __init__(self, **kwargs) -> None:
         self.engine_type = kwargs.get("engine_type", "weaviate")
         self.search_configs = kwargs.get("search_configs", None)
 
-        print(f"***** Init searcher *****")
-
     def search(self, query) -> Any:
-        print(
-            f"***** Searcher from query {query} and the configs: {self.search_configs} *****"
-        )
+        related_docs = "related_docs"
+        return {
+            "query": query,
+            "engine_type": self.engine_type,
+            "search_configs": self.search_configs,
+            "related_docs": related_docs
+        }
 
 
 def init_searcher():

@@ -55,7 +55,6 @@ def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
 def update_item(item_id: int, item: ItemUpdate, db: Session = Depends(get_db)) -> Item:
     try:
         return db_update_item(item_id, item, db)
-        # return db_update_item(item_id, db)
 
     except NotFoundError:
         raise HTTPException(status_code=404, detail="Item not found")

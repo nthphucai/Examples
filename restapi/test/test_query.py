@@ -26,6 +26,7 @@ async def generate_from_file(
         response.status_code = result.status_code
         file.close()
         return result
+    
     except Exception as e:
         logger.exception(e)
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR

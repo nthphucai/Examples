@@ -3,15 +3,30 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class SearchQuery(BaseModel):
-    task: str = Field(
-        default="simple-question",
-        description="`simple-question` -> Return the question and the answer;\n`multiple-choice` -> "
-        "Return the question and four options for the question (one is the answer);"
-        "\n`best-title`: Return the english 'choose the best title' question and answer;",
+    engine_type: str = Field(
+        default="weaviate",
+        description="engine_type"
     )
-    domain: str = Field(
-        default="english",
-        description="`english` -> Return the generation question and answer in English domain;\n`history` -> "
-        "Return the question and answer in Vietnamese History domain",
+    search_configs: str = Field(
+        default="search_configs",
+        description="search_configs",
     )
     context: Union[str, List[str]] = Field(description="Input context")
+
+
+
+class SearchResponse(BaseModel):
+    query: Union[str, List[str]] = Field(description="Input context")
+
+    engine_type: str = Field(
+        default="weaviate",
+        description="engine_type"
+    )
+    search_configs: str = Field(
+        default="search_configs",
+        description="search_configs",
+    )
+    related_docs: str = Field(
+        default="related_docs",
+        description="related_docs",
+    )
