@@ -59,22 +59,22 @@ class SearchEngine:
 ENDPOINT_URL = "http://0.0.0.0:5050/v1/from_query"
 
 
-# async def main():
-#     st.title("Search Engine Query")
+async def a_main():
+    st.title("Search Engine Query")
 
-#     context = st.text_input("Enter Context:", "this is example query")
+    context = st.text_input("Enter Context:", "this is example query")
 
-#     data_configs = {
-#         "context": context,
-#         "engine_type": "weaviate",
-#         "search_configs": "search_configs",
-#     }
+    data_configs = {
+        "context": context,
+        "engine_type": "weaviate",
+        "search_configs": "search_configs",
+    }
 
-#     if st.button("Submit Query"):
-#         client = SearchEngine(ENDPOINT_URL)
-#         response = await client.a_query(**data_configs)
-#         st.write("Response:")
-#         st.json(response)
+    if st.button("Submit Query"):
+        client = SearchEngine(ENDPOINT_URL)
+        response = await client.a_query(**data_configs)
+        st.write("Response:")
+        st.json(response)
 
 def main():
     st.title("Search Engine Query")
@@ -95,5 +95,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    #asyncio.run(main())
+    #main()
+    asyncio.run(a_main())
