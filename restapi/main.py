@@ -7,10 +7,13 @@ import uvicorn
 from loguru import logger
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
+
 from starlette.middleware.cors import CORSMiddleware
 from slowapi.errors import RateLimitExceeded
 from slowapi import _rate_limit_exceeded_handler
+from contextlib import asynccontextmanager
 
+from api.middlewares import AuthenticationMiddleware
 from api.routes.router import router as api_router
 from api.routes import limiter
 from exceptions import (
@@ -45,11 +48,44 @@ def create_exception_handler(
     return exception_handler
 
 
+app = FastAPI()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Add security scheme to OpenAPI schema
+    async def startup_event():
+        openapi_schema = app.openapi()
+        openapi_schema["components"]["securitySchemes"] = {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+            }
+        }
+        for path, methods in openapi_schema["paths"].items():
+            for method, details in methods.items():
+                # Disable security for 'login_for_access_token' endpoint
+                if details.get("summary") == "Login For Access Token":
+                    details.pop("security", None)
+                else:
+                    details["security"] = [{"BearerAuth": []}]
+        app.openapi_schema = openapi_schema
+
+    async def shutdown_event():
+        logger.info("Shutting down API...")
+
+    await startup_event()
+    yield
+    await shutdown_event()
+
+
 def get_app() -> FastAPI:
     app = FastAPI(
         title="RestAPI Scaffold",
         description="Scaffold for APIs Testing",
         openapi_url="/openapi.json",
+        lifespan=lifespan,
     )
 
     # This middleware enables allow all cross-domain requests to the API from a browser.
@@ -61,6 +97,9 @@ def get_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    # Add the AuthenticationMiddleware to the app
+    app.add_middleware(AuthenticationMiddleware)
 
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
@@ -89,17 +128,12 @@ def get_app() -> FastAPI:
     )
 
     app.include_router(api_router)
+
     return app
 
 
 app = get_app()
 
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    logger.info("Shutting down API")
-
-
 if __name__ == "__main__":
     # In production, don't forget to change reload => False, debug => False
-    uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=int(5050), reload=True)

@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Response
 from dotenv import load_dotenv
 
-from api.routes import generate, search
+from api.routes import generate, search, gen_token
 
 
 load_dotenv()
 
 router = APIRouter()
 
+router.include_router(gen_token.router, tags=["Token"]) 
 router.include_router(search.router, tags=["Search"])
 router.include_router(generate.router, tags=["Generate"])
 
