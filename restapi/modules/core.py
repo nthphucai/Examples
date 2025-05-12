@@ -1,7 +1,6 @@
 from typing import Any
 from modules.search import UserQuery
 from modules.generate import LLMGenInput
-from database.operations import ItemCreate
 
 class SearcherInit:
     def __init__(self, **kwargs) -> None:

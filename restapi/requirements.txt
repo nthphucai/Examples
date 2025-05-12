@@ -1,3 +1,9 @@
+fastapi
+wasabi
+uvicorn
+loguru
+slowapi
+starlette
 uvicorn[standard]
 python-multipart
 python-jose[cryptography]

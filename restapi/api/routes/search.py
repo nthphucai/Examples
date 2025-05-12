@@ -1,7 +1,5 @@
 import gc
-import torch
 import fastapi
-from fastapi import File, Response, UploadFile, status
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi import HTTPException, Request
 from fastapi.params import Depends
@@ -48,5 +46,4 @@ async def search(
         print("save_to_db...")
 
     gc.collect()
-    torch.cuda.empty_cache()
     return result

@@ -1,10 +1,7 @@
 import gc
 
-import torch
 import fastapi
-from fastapi import File, Response, UploadFile, status
 from fastapi.openapi.docs import get_swagger_ui_html
-from loguru import logger
 from fastapi.params import Depends
 from .limiter import limiter
 
@@ -50,5 +47,4 @@ async def generate(
         print("save_to_db...")
 
     gc.collect()
-    torch.cuda.empty_cache()
     return result
