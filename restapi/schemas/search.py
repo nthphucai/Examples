@@ -16,6 +16,10 @@ class SearchQuery(BaseModel):
 
 
 class SearchResponse(BaseModel):
+    desc : str = Field(
+        default="This is a api testing for searcher module",
+        description="desc",
+    )
     query: Union[str, List[str]] = Field(description="Input context")
 
     engine_type: str = Field(
@@ -30,3 +34,4 @@ class SearchResponse(BaseModel):
         default="related_docs",
         description="related_docs",
     )
+

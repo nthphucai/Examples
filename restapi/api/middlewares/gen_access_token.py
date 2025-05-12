@@ -107,7 +107,15 @@ class GenAccToken:
             )
 
     def authenticate_user(self, username: str, password: str):
-        user = self.get_user(db=DATABASE, token_data=username)
+        token_data ={
+            "username": username,
+            "full_name": "full_name",
+            "email": f"{username}@gmail.com",
+            "idm_role": "Viewer",
+            "hashed_password": "hashed_password",
+            "disabled": False,
+        }
+        user = self.get_user(db=None, token_data=token_data)
         # if not user:
         #     return False
         # if not self.verify_password(password, user.hashed_password):
@@ -194,7 +202,7 @@ class GenAccToken:
                     "username": "tim",
                     "full_name": "Tim Ruscica",
                     "email": "tim@gmail.com",
-                    "idm_role": "idm2bcd_VCPathfinder_Viewer_BluePrint",
+                    "idm_role": "Viewer",
                     "hashed_password": "$2b$12$HxWHkvMuL7WrZad6lcCfluNFj1/Zp63lvP5aUrKlSTYtoFzPXHOtu",
                     "disabled": False,
                     }

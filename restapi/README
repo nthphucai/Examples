@@ -4,15 +4,6 @@
 
 This project is a scaffold for building RESTful APIs using FastAPI. It includes essential middleware, exception handling, and a basic structure for organizing routes and services.
 
-## Project Structure
-
-```
-restapi
-├── main.py
-├── requirements.txt
-└── README.md
-```
-
 ## Requirements
 
 - Python 3.10
